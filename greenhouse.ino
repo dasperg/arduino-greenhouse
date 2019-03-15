@@ -28,10 +28,7 @@ void setup(void)
   pinMode(RELAY_OPEN_PIN, OUTPUT);
   pinMode(RELAY_CLOSE_PIN, OUTPUT);
 
-  digitalWrite(RELAY_OPEN_PIN, LOW);
-//  digitalWrite(RELAY_OPEN_PIN, HIGH);
-
-//  digitalWrite(RELAY_CLOSE_PIN, LOW);
+  digitalWrite(RELAY_OPEN_PIN, HIGH);  //default => off
   digitalWrite(RELAY_CLOSE_PIN, HIGH);
 
   // Start up the library
@@ -43,6 +40,8 @@ void setup(void)
 */
 void loop(void)
 {
+//  digitalWrite(RELAY_OPEN_PIN, HIGH);
+//  digitalWrite(RELAY_CLOSE_PIN, LOW);
   // call sensors.requestTemperatures() to issue a global temperature
   // request to all devices on the bus
   Serial.print("Requesting temperatures...");
@@ -59,21 +58,19 @@ void loop(void)
     Serial.println(tempC);
 
 //    // Open/Close logic
-//    if(tempC >= OPEN_TEMP) {
-//      digitalWrite(RELAY_OPEN_PIN, HIGH);
-//      digitalWrite(RELAY_CLOSE_PIN, LOW);
-//    } else if(tempC <= CLOSE_TEMP) {
-//      digitalWrite(RELAY_OPEN_PIN, LOW);
-//      digitalWrite(RELAY_CLOSE_PIN, HIGH);
-//    }
+    if(tempC >= OPEN_TEMP) {
+      digitalWrite(RELAY_CLOSE_PIN, HIGH);  // First off
+      digitalWrite(RELAY_OPEN_PIN, LOW);
+    } else if(tempC <= CLOSE_TEMP) {
+      digitalWrite(RELAY_OPEN_PIN, HIGH);   // First off
+      digitalWrite(RELAY_CLOSE_PIN, LOW);
+    }
   }
   else
   {
     Serial.println("Error: Could not read temperature data");
   }
 
-//  digitalWrite(RELAY_OPEN_PIN, HIGH);
-//  digitalWrite(RELAY_CLOSE_PIN, LOW);
 //  digitalWrite(RELAY_OPEN_PIN, LOW);
 //  digitalWrite(RELAY_CLOSE_PIN, HIGH);
 }
