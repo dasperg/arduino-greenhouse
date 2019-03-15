@@ -8,7 +8,13 @@
 #define RELAY_CLOSE_PIN 10
 
 #define OPEN_TEMP 30
-#define CLOSE_TEMP 25
+#define CLOSE_TEMP 20
+#define OPERATION_TIME 30 // seconds
+
+#define OPEN 2
+#define CLOSED 4
+
+int status = 0;
 
 // Setup a oneWire instance to communicate with any OneWire devices (not just Maxim/Dallas temperature ICs)
 OneWire oneWire(TEMPERATURE_PIN);
@@ -40,8 +46,6 @@ void setup(void)
 */
 void loop(void)
 {
-//  digitalWrite(RELAY_OPEN_PIN, HIGH);
-//  digitalWrite(RELAY_CLOSE_PIN, LOW);
   // call sensors.requestTemperatures() to issue a global temperature
   // request to all devices on the bus
   Serial.print("Requesting temperatures...");
@@ -59,18 +63,32 @@ void loop(void)
 
 //    // Open/Close logic
     if(tempC >= OPEN_TEMP) {
-      digitalWrite(RELAY_CLOSE_PIN, HIGH);  // First off
-      digitalWrite(RELAY_OPEN_PIN, LOW);
+      openWindow();
     } else if(tempC <= CLOSE_TEMP) {
-      digitalWrite(RELAY_OPEN_PIN, HIGH);   // First off
-      digitalWrite(RELAY_CLOSE_PIN, LOW);
+      closeWindow();
     }
   }
   else
   {
     Serial.println("Error: Could not read temperature data");
   }
+}
 
-//  digitalWrite(RELAY_OPEN_PIN, LOW);
-//  digitalWrite(RELAY_CLOSE_PIN, HIGH);
+void openWindow() {
+  if (status != OPEN) {
+    digitalWrite(RELAY_CLOSE_PIN, HIGH);  // First off
+    digitalWrite(RELAY_OPEN_PIN, LOW);
+    delay(OPERATION_TIME * 1000);
+    digitalWrite(RELAY_OPEN_PIN, HIGH);
+    status = OPEN;
+  }
+}
+ void closeWindow() {
+  if (status != CLOSED) {
+    digitalWrite(RELAY_OPEN_PIN, HIGH);   // First off
+    digitalWrite(RELAY_CLOSE_PIN, LOW);
+    delay(OPERATION_TIME * 1000);
+    digitalWrite(RELAY_CLOSE_PIN, HIGH);
+    status = CLOSED;
+  }
 }
