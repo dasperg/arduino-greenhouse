@@ -8,8 +8,8 @@
 #define RELAY_CLOSE_PIN 10
 
 #define OPEN_TEMP 30
-#define CLOSE_TEMP 20
-#define OPERATION_TIME 30 // seconds
+#define CLOSE_TEMP 23
+#define OPERATION_TIME 35 // seconds
 
 #define OPEN 2
 #define CLOSED 4
@@ -61,15 +61,14 @@ void loop(void)
     Serial.print("Temperature for the device 1 (index 0) is: ");
     Serial.println(tempC);
 
-//    // Open/Close logic
+    // Open/Close logic
     if(tempC >= OPEN_TEMP) {
       openWindow();
     } else if(tempC <= CLOSE_TEMP) {
       closeWindow();
     }
-  }
-  else
-  {
+    Serial.println("hotovo");
+  } else {
     Serial.println("Error: Could not read temperature data");
   }
 }
