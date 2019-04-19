@@ -9,7 +9,7 @@
 
 #define OPEN_TEMP 30
 #define CLOSE_TEMP 23
-#define OPERATION_TIME 35 // seconds
+#define OPERATION_TIME 60 // seconds
 
 #define OPEN 2
 #define CLOSED 4
@@ -77,7 +77,7 @@ void openWindow() {
   if (status != OPEN) {
     digitalWrite(RELAY_CLOSE_PIN, HIGH);  // First off
     digitalWrite(RELAY_OPEN_PIN, LOW);
-    delay(OPERATION_TIME * 1000);
+    delay(OPERATION_TIME * 1000UL);
     digitalWrite(RELAY_OPEN_PIN, HIGH);
     status = OPEN;
   }
@@ -86,7 +86,7 @@ void openWindow() {
   if (status != CLOSED) {
     digitalWrite(RELAY_OPEN_PIN, HIGH);   // First off
     digitalWrite(RELAY_CLOSE_PIN, LOW);
-    delay(OPERATION_TIME * 1000);
+    delay(OPERATION_TIME * 1000UL);
     digitalWrite(RELAY_CLOSE_PIN, HIGH);
     status = CLOSED;
   }
